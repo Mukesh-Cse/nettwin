@@ -909,3 +909,103 @@ else:
         "Boundary evaluation report not found. "
         "Generate results/boundary_observable_summary.json first."
     )
+
+
+# ============================================================
+# Real Firewall Boundary Validation
+# ============================================================
+
+st.header("Real Firewall Boundary Validation")
+
+st.caption(
+    "Results from isolated Linux network namespaces using "
+    "real TCP/UDP traffic and nftables firewall rules."
+)
+
+real_boundary_path = Path(
+    "results/real_boundary_validation_results.json"
+)
+
+if real_boundary_path.exists():
+
+    with open(real_boundary_path, encoding="utf-8") as f:
+        real_boundary_report = json.load(f)
+
+    total = real_boundary_report["total_tests"]
+    passed = real_boundary_report["passed"]
+    failed = real_boundary_report["failed"]
+
+    success_rate = 100 * passed / total if total else 0
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    col1.metric("Total Tests", total)
+    col2.metric("Passed", passed)
+    col3.metric("Failed", failed)
+    col4.metric("Success Rate", f"{success_rate:.1f}%")
+
+    st.subheader("Original vs Boundary Tests")
+
+    real_tests_df = pd.DataFrame(
+        real_boundary_report["tests"]
+    )
+
+    category_summary = (
+        real_tests_df.groupby("category")["passed"]
+        .agg(["count", "sum"])
+        .reset_index()
+        .rename(
+            columns={
+                "category": "Test Category",
+                "count": "Total",
+                "sum": "Passed",
+            }
+        )
+    )
+
+    st.dataframe(category_summary, use_container_width=True)
+
+    st.subheader("Individual Firewall Test Results")
+
+    display_columns = {
+        "test_id": "Test ID",
+        "category": "Category",
+        "source": "Source",
+        "destination": "Destination",
+        "protocol": "Protocol",
+        "port": "Port",
+        "expected": "Expected",
+        "observed": "Observed",
+        "matched_rule": "Matched Firewall Rule",
+        "matched_rule_packets": "Matched Rule Packets",
+        "passed": "Passed",
+    }
+
+    st.dataframe(
+        real_tests_df.rename(columns=display_columns),
+        use_container_width=True,
+        hide_index=True,
+    )
+
+    st.subheader("Observed Firewall Decisions")
+
+    decision_counts = (
+        real_tests_df["observed"]
+        .value_counts()
+        .rename_axis("Decision")
+        .to_frame("Tests")
+    )
+
+    st.bar_chart(decision_counts)
+
+    st.caption(
+        "These results validate the guest-isolation scenario "
+        "against a real nftables firewall. They do not establish "
+        "correctness for all possible traffic or network policies."
+    )
+
+else:
+    st.warning(
+        "Real firewall validation report not found. "
+        "Run sudo python3 -m nettwin.real_boundary_validation first."
+    )
