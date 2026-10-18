@@ -1,0 +1,43 @@
+{
+  "backend": "linux-netns-nftables",
+  "total": 3,
+  "passed": 3,
+  "results": [
+    {
+      "test": "baseline_allow",
+      "expected_allowed": true,
+      "observed_allowed": true,
+      "passed": true,
+      "probe": {
+        "allowed": true,
+        "exit_code": 0,
+        "output": "PING 10.10.1.2 (10.10.1.2) 56(84) bytes of data.\n64 bytes from 10.10.1.2: icmp_seq=1 ttl=64 time=0.057 ms\n64 bytes from 10.10.1.2: icmp_seq=2 ttl=64 time=0.043 ms\n\n--- 10.10.1.2 ping statistics ---\n2 packets transmitted, 2 received, 0% packet loss, time 1028ms\nrtt min/avg/max/mdev = 0.043/0.050/0.057/0.007 ms",
+        "error": ""
+      }
+    },
+    {
+      "test": "firewall_deny",
+      "expected_allowed": false,
+      "observed_allowed": false,
+      "passed": true,
+      "probe": {
+        "allowed": false,
+        "exit_code": 1,
+        "output": "PING 10.10.1.2 (10.10.1.2) 56(84) bytes of data.\n\n--- 10.10.1.2 ping statistics ---\n2 packets transmitted, 0 received, 100% packet loss, time 1010ms",
+        "error": ""
+      }
+    },
+    {
+      "test": "restored_allow",
+      "expected_allowed": true,
+      "observed_allowed": true,
+      "passed": true,
+      "probe": {
+        "allowed": true,
+        "exit_code": 0,
+        "output": "PING 10.10.1.2 (10.10.1.2) 56(84) bytes of data.\n64 bytes from 10.10.1.2: icmp_seq=1 ttl=64 time=0.086 ms\n64 bytes from 10.10.1.2: icmp_seq=2 ttl=64 time=0.116 ms\n\n--- 10.10.1.2 ping statistics ---\n2 packets transmitted, 2 received, 0% packet loss, time 1008ms\nrtt min/avg/max/mdev = 0.086/0.101/0.116/0.015 ms",
+        "error": ""
+      }
+    }
+  ]
+}

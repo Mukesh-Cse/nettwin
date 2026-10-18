@@ -1,0 +1,141 @@
+{
+  "scenario": "Guest isolation with ordered ACLs",
+  "candidate_flows": 240,
+  "additional_tests": 12,
+  "access_expanding_mutants_covered": 12,
+  "uncovered_mutants": [],
+  "selected_tests": [
+    {
+      "source": "guest",
+      "destination": "admin",
+      "protocol": "tcp",
+      "port": 443,
+      "expected": "DENY",
+      "new_mutants_detected": 1,
+      "mutations": [
+        "widen_destination:guest_internet"
+      ]
+    },
+    {
+      "source": "guest",
+      "destination": "admin",
+      "protocol": "udp",
+      "port": 53,
+      "expected": "DENY",
+      "new_mutants_detected": 1,
+      "mutations": [
+        "widen_destination:guest_dns"
+      ]
+    },
+    {
+      "source": "guest",
+      "destination": "dns",
+      "protocol": "tcp",
+      "port": 53,
+      "expected": "DENY",
+      "new_mutants_detected": 1,
+      "mutations": [
+        "change_protocol:guest_dns"
+      ]
+    },
+    {
+      "source": "guest",
+      "destination": "dns",
+      "protocol": "udp",
+      "port": 22,
+      "expected": "DENY",
+      "new_mutants_detected": 1,
+      "mutations": [
+        "change_port:guest_dns"
+      ]
+    },
+    {
+      "source": "guest",
+      "destination": "internet",
+      "protocol": "tcp",
+      "port": 22,
+      "expected": "DENY",
+      "new_mutants_detected": 1,
+      "mutations": [
+        "change_port:guest_internet"
+      ]
+    },
+    {
+      "source": "guest",
+      "destination": "internet",
+      "protocol": "udp",
+      "port": 443,
+      "expected": "DENY",
+      "new_mutants_detected": 1,
+      "mutations": [
+        "change_protocol:guest_internet"
+      ]
+    },
+    {
+      "source": "admin",
+      "destination": "guest",
+      "protocol": "tcp",
+      "port": 22,
+      "expected": "DENY",
+      "new_mutants_detected": 1,
+      "mutations": [
+        "widen_destination:admin_mgmt"
+      ]
+    },
+    {
+      "source": "admin",
+      "destination": "dns",
+      "protocol": "udp",
+      "port": 53,
+      "expected": "DENY",
+      "new_mutants_detected": 1,
+      "mutations": [
+        "widen_source:guest_dns"
+      ]
+    },
+    {
+      "source": "admin",
+      "destination": "management",
+      "protocol": "tcp",
+      "port": 53,
+      "expected": "DENY",
+      "new_mutants_detected": 1,
+      "mutations": [
+        "change_port:admin_mgmt"
+      ]
+    },
+    {
+      "source": "admin",
+      "destination": "management",
+      "protocol": "udp",
+      "port": 22,
+      "expected": "DENY",
+      "new_mutants_detected": 1,
+      "mutations": [
+        "change_protocol:admin_mgmt"
+      ]
+    },
+    {
+      "source": "admin",
+      "destination": "internet",
+      "protocol": "tcp",
+      "port": 443,
+      "expected": "DENY",
+      "new_mutants_detected": 1,
+      "mutations": [
+        "widen_source:guest_internet"
+      ]
+    },
+    {
+      "source": "dns",
+      "destination": "management",
+      "protocol": "tcp",
+      "port": 22,
+      "expected": "DENY",
+      "new_mutants_detected": 1,
+      "mutations": [
+        "widen_source:admin_mgmt"
+      ]
+    }
+  ]
+}

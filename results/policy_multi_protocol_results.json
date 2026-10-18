@@ -1,0 +1,161 @@
+{
+  "firewall_counters": [
+    {
+      "rule_id": "CONNECTION_TRACKING",
+      "packets": 12,
+      "bytes": 632
+    },
+    {
+      "rule_id": "guest_dns",
+      "packets": 1,
+      "bytes": 44
+    },
+    {
+      "rule_id": "guest_internet",
+      "packets": 1,
+      "bytes": 60
+    },
+    {
+      "rule_id": "guest_db_deny",
+      "packets": 2,
+      "bytes": 120
+    },
+    {
+      "rule_id": "guest_mgmt_deny",
+      "packets": 2,
+      "bytes": 120
+    },
+    {
+      "rule_id": "admin_mgmt",
+      "packets": 1,
+      "bytes": 60
+    },
+    {
+      "rule_id": "DEFAULT",
+      "packets": 0,
+      "bytes": 0
+    }
+  ],
+  "backend": "linux-policy-multi-protocol",
+  "scenario": "Guest isolation with ordered ACLs",
+  "total": 5,
+  "passed": 5,
+  "results": [
+    {
+      "assertion_id": "dns_allowed",
+      "source": "guest",
+      "destination": "dns",
+      "protocol": "udp",
+      "port": 53,
+      "expected": "ALLOW",
+      "model_action": "ALLOW",
+      "matched_rule": "guest_dns",
+      "observed": "ALLOW",
+      "probe": {
+        "allowed": true,
+        "response_received": true,
+        "response_matches": true
+      },
+      "passed": true,
+      "packet_delta": 1,
+      "byte_delta": 44,
+      "firewall_evidence": {
+        "rule_id": "guest_dns",
+        "packets": 1,
+        "bytes": 44
+      }
+    },
+    {
+      "assertion_id": "internet_allowed",
+      "source": "guest",
+      "destination": "internet",
+      "protocol": "tcp",
+      "port": 443,
+      "expected": "ALLOW",
+      "model_action": "ALLOW",
+      "matched_rule": "guest_internet",
+      "observed": "ALLOW",
+      "probe": {
+        "allowed": true,
+        "socket_error": 0
+      },
+      "passed": true,
+      "packet_delta": 1,
+      "byte_delta": 60,
+      "firewall_evidence": {
+        "rule_id": "guest_internet",
+        "packets": 1,
+        "bytes": 60
+      }
+    },
+    {
+      "assertion_id": "db_denied",
+      "source": "guest",
+      "destination": "database",
+      "protocol": "tcp",
+      "port": 5432,
+      "expected": "DENY",
+      "model_action": "DENY",
+      "matched_rule": "guest_db_deny",
+      "observed": "DENY",
+      "probe": {
+        "allowed": false,
+        "socket_error": 11
+      },
+      "passed": true,
+      "packet_delta": 2,
+      "byte_delta": 120,
+      "firewall_evidence": {
+        "rule_id": "guest_db_deny",
+        "packets": 2,
+        "bytes": 120
+      }
+    },
+    {
+      "assertion_id": "mgmt_denied",
+      "source": "guest",
+      "destination": "management",
+      "protocol": "tcp",
+      "port": 22,
+      "expected": "DENY",
+      "model_action": "DENY",
+      "matched_rule": "guest_mgmt_deny",
+      "observed": "DENY",
+      "probe": {
+        "allowed": false,
+        "socket_error": 11
+      },
+      "passed": true,
+      "packet_delta": 2,
+      "byte_delta": 120,
+      "firewall_evidence": {
+        "rule_id": "guest_mgmt_deny",
+        "packets": 2,
+        "bytes": 120
+      }
+    },
+    {
+      "assertion_id": "admin_allowed",
+      "source": "admin",
+      "destination": "management",
+      "protocol": "tcp",
+      "port": 22,
+      "expected": "ALLOW",
+      "model_action": "ALLOW",
+      "matched_rule": "admin_mgmt",
+      "observed": "ALLOW",
+      "probe": {
+        "allowed": true,
+        "socket_error": 0
+      },
+      "passed": true,
+      "packet_delta": 1,
+      "byte_delta": 60,
+      "firewall_evidence": {
+        "rule_id": "admin_mgmt",
+        "packets": 1,
+        "bytes": 60
+      }
+    }
+  ]
+}

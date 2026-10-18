@@ -1,0 +1,24 @@
+[
+  {
+    "scenario": "Guest isolation with ordered ACLs",
+    "held_out_mutants": 19,
+    "original_tests": 5,
+    "boundary_tests": 6,
+    "expanded_tests": 11,
+    "original_detected": 3,
+    "expanded_detected": 9,
+    "original_rate": 15.8,
+    "expanded_rate": 47.4
+  },
+  {
+    "scenario": "Enterprise network segmentation",
+    "held_out_mutants": 23,
+    "original_tests": 6,
+    "boundary_tests": 10,
+    "expanded_tests": 16,
+    "original_detected": 5,
+    "expanded_detected": 15,
+    "original_rate": 21.7,
+    "expanded_rate": 65.2
+  }
+]

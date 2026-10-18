@@ -1,0 +1,318 @@
+[
+  {
+    "scenario": "Guest isolation with ordered ACLs",
+    "analyzed_flows": 420,
+    "held_out_mutants": 19,
+    "observable_mutants": 9,
+    "equivalent_within_flow_space": 10,
+    "detected_observable": 3,
+    "observable_detection_rate": 33.3,
+    "records": [
+      {
+        "mutation": "change_port:guest_dns",
+        "operator": "change_port",
+        "observable": true,
+        "changed_flows": 6,
+        "original_detected": false
+      },
+      {
+        "mutation": "change_protocol:guest_dns",
+        "operator": "change_protocol",
+        "observable": true,
+        "changed_flows": 1,
+        "original_detected": false
+      },
+      {
+        "mutation": "delete:guest_dns",
+        "operator": "delete",
+        "observable": true,
+        "changed_flows": 1,
+        "original_detected": true
+      },
+      {
+        "mutation": "swap:guest_dns",
+        "operator": "swap",
+        "observable": false,
+        "changed_flows": 0,
+        "original_detected": false
+      },
+      {
+        "mutation": "change_port:guest_internet",
+        "operator": "change_port",
+        "observable": true,
+        "changed_flows": 6,
+        "original_detected": false
+      },
+      {
+        "mutation": "change_protocol:guest_internet",
+        "operator": "change_protocol",
+        "observable": true,
+        "changed_flows": 1,
+        "original_detected": false
+      },
+      {
+        "mutation": "delete:guest_internet",
+        "operator": "delete",
+        "observable": true,
+        "changed_flows": 1,
+        "original_detected": true
+      },
+      {
+        "mutation": "swap:guest_internet",
+        "operator": "swap",
+        "observable": false,
+        "changed_flows": 0,
+        "original_detected": false
+      },
+      {
+        "mutation": "change_port:guest_db_deny",
+        "operator": "change_port",
+        "observable": false,
+        "changed_flows": 0,
+        "original_detected": false
+      },
+      {
+        "mutation": "change_protocol:guest_db_deny",
+        "operator": "change_protocol",
+        "observable": false,
+        "changed_flows": 0,
+        "original_detected": false
+      },
+      {
+        "mutation": "delete:guest_db_deny",
+        "operator": "delete",
+        "observable": false,
+        "changed_flows": 0,
+        "original_detected": false
+      },
+      {
+        "mutation": "swap:guest_db_deny",
+        "operator": "swap",
+        "observable": false,
+        "changed_flows": 0,
+        "original_detected": false
+      },
+      {
+        "mutation": "change_port:guest_mgmt_deny",
+        "operator": "change_port",
+        "observable": false,
+        "changed_flows": 0,
+        "original_detected": false
+      },
+      {
+        "mutation": "change_protocol:guest_mgmt_deny",
+        "operator": "change_protocol",
+        "observable": false,
+        "changed_flows": 0,
+        "original_detected": false
+      },
+      {
+        "mutation": "delete:guest_mgmt_deny",
+        "operator": "delete",
+        "observable": false,
+        "changed_flows": 0,
+        "original_detected": false
+      },
+      {
+        "mutation": "swap:guest_mgmt_deny",
+        "operator": "swap",
+        "observable": false,
+        "changed_flows": 0,
+        "original_detected": false
+      },
+      {
+        "mutation": "change_port:admin_mgmt",
+        "operator": "change_port",
+        "observable": true,
+        "changed_flows": 6,
+        "original_detected": false
+      },
+      {
+        "mutation": "change_protocol:admin_mgmt",
+        "operator": "change_protocol",
+        "observable": true,
+        "changed_flows": 1,
+        "original_detected": false
+      },
+      {
+        "mutation": "delete:admin_mgmt",
+        "operator": "delete",
+        "observable": true,
+        "changed_flows": 1,
+        "original_detected": true
+      }
+    ]
+  },
+  {
+    "scenario": "Enterprise network segmentation",
+    "analyzed_flows": 420,
+    "held_out_mutants": 23,
+    "observable_mutants": 15,
+    "equivalent_within_flow_space": 8,
+    "detected_observable": 5,
+    "observable_detection_rate": 33.3,
+    "records": [
+      {
+        "mutation": "change_port:employee_web",
+        "operator": "change_port",
+        "observable": true,
+        "changed_flows": 6,
+        "original_detected": false
+      },
+      {
+        "mutation": "change_protocol:employee_web",
+        "operator": "change_protocol",
+        "observable": true,
+        "changed_flows": 1,
+        "original_detected": false
+      },
+      {
+        "mutation": "delete:employee_web",
+        "operator": "delete",
+        "observable": true,
+        "changed_flows": 1,
+        "original_detected": true
+      },
+      {
+        "mutation": "swap:employee_web",
+        "operator": "swap",
+        "observable": false,
+        "changed_flows": 0,
+        "original_detected": false
+      },
+      {
+        "mutation": "change_port:developer_database",
+        "operator": "change_port",
+        "observable": true,
+        "changed_flows": 6,
+        "original_detected": false
+      },
+      {
+        "mutation": "change_protocol:developer_database",
+        "operator": "change_protocol",
+        "observable": true,
+        "changed_flows": 1,
+        "original_detected": false
+      },
+      {
+        "mutation": "delete:developer_database",
+        "operator": "delete",
+        "observable": true,
+        "changed_flows": 1,
+        "original_detected": true
+      },
+      {
+        "mutation": "swap:developer_database",
+        "operator": "swap",
+        "observable": false,
+        "changed_flows": 0,
+        "original_detected": false
+      },
+      {
+        "mutation": "change_port:web_database",
+        "operator": "change_port",
+        "observable": true,
+        "changed_flows": 6,
+        "original_detected": false
+      },
+      {
+        "mutation": "change_protocol:web_database",
+        "operator": "change_protocol",
+        "observable": true,
+        "changed_flows": 1,
+        "original_detected": false
+      },
+      {
+        "mutation": "delete:web_database",
+        "operator": "delete",
+        "observable": true,
+        "changed_flows": 1,
+        "original_detected": true
+      },
+      {
+        "mutation": "swap:web_database",
+        "operator": "swap",
+        "observable": false,
+        "changed_flows": 0,
+        "original_detected": false
+      },
+      {
+        "mutation": "change_port:monitor_web",
+        "operator": "change_port",
+        "observable": true,
+        "changed_flows": 6,
+        "original_detected": false
+      },
+      {
+        "mutation": "change_protocol:monitor_web",
+        "operator": "change_protocol",
+        "observable": true,
+        "changed_flows": 1,
+        "original_detected": false
+      },
+      {
+        "mutation": "delete:monitor_web",
+        "operator": "delete",
+        "observable": true,
+        "changed_flows": 1,
+        "original_detected": true
+      },
+      {
+        "mutation": "swap:monitor_web",
+        "operator": "swap",
+        "observable": false,
+        "changed_flows": 0,
+        "original_detected": false
+      },
+      {
+        "mutation": "change_port:employee_internet",
+        "operator": "change_port",
+        "observable": true,
+        "changed_flows": 6,
+        "original_detected": false
+      },
+      {
+        "mutation": "change_protocol:employee_internet",
+        "operator": "change_protocol",
+        "observable": true,
+        "changed_flows": 1,
+        "original_detected": false
+      },
+      {
+        "mutation": "delete:employee_internet",
+        "operator": "delete",
+        "observable": true,
+        "changed_flows": 1,
+        "original_detected": true
+      },
+      {
+        "mutation": "swap:employee_internet",
+        "operator": "swap",
+        "observable": false,
+        "changed_flows": 0,
+        "original_detected": false
+      },
+      {
+        "mutation": "change_port:employee_database_deny",
+        "operator": "change_port",
+        "observable": false,
+        "changed_flows": 0,
+        "original_detected": false
+      },
+      {
+        "mutation": "change_protocol:employee_database_deny",
+        "operator": "change_protocol",
+        "observable": false,
+        "changed_flows": 0,
+        "original_detected": false
+      },
+      {
+        "mutation": "delete:employee_database_deny",
+        "operator": "delete",
+        "observable": false,
+        "changed_flows": 0,
+        "original_detected": false
+      }
+    ]
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "scenario": "Guest isolation with ordered ACLs",
+    "evaluated_flows": 420,
+    "held_out_mutants": 19,
+    "observable_mutants": 9,
+    "equivalent_within_flow_space": 10,
+    "original_tests": 5,
+    "boundary_tests_added": 6,
+    "expanded_tests": 11,
+    "original_detected": 3,
+    "expanded_detected": 9,
+    "original_observable_recall": 33.3,
+    "expanded_observable_recall": 100.0
+  },
+  {
+    "scenario": "Enterprise network segmentation",
+    "evaluated_flows": 420,
+    "held_out_mutants": 23,
+    "observable_mutants": 15,
+    "equivalent_within_flow_space": 8,
+    "original_tests": 6,
+    "boundary_tests_added": 10,
+    "expanded_tests": 16,
+    "original_detected": 5,
+    "expanded_detected": 15,
+    "original_observable_recall": 33.3,
+    "expanded_observable_recall": 100.0
+  },
+  {
+    "scenario": "Cloud microservices zero-trust segmentation",
+    "evaluated_flows": 480,
+    "held_out_mutants": 23,
+    "observable_mutants": 15,
+    "equivalent_within_flow_space": 8,
+    "original_tests": 6,
+    "boundary_tests_added": 10,
+    "expanded_tests": 16,
+    "original_detected": 5,
+    "expanded_detected": 15,
+    "original_observable_recall": 33.3,
+    "expanded_observable_recall": 100.0
+  }
+]

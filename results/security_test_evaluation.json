@@ -1,0 +1,283 @@
+{
+  "original_assertions": 5,
+  "expanded_assertions": 17,
+  "mutants": 34,
+  "original_detected": 9,
+  "expanded_detected": 21,
+  "access_expanding_mutants": 14,
+  "access_expansions_detected": 14,
+  "records": [
+    {
+      "mutation": "flip_action:guest_dns",
+      "operator": "flip_action",
+      "rule_id": "guest_dns",
+      "original_detected": true,
+      "expanded_detected": true,
+      "newly_allowed_on_tested_flows": false
+    },
+    {
+      "mutation": "widen_source:guest_dns",
+      "operator": "widen_source",
+      "rule_id": "guest_dns",
+      "original_detected": false,
+      "expanded_detected": true,
+      "newly_allowed_on_tested_flows": true
+    },
+    {
+      "mutation": "widen_destination:guest_dns",
+      "operator": "widen_destination",
+      "rule_id": "guest_dns",
+      "original_detected": false,
+      "expanded_detected": true,
+      "newly_allowed_on_tested_flows": true
+    },
+    {
+      "mutation": "change_port:guest_dns",
+      "operator": "change_port",
+      "rule_id": "guest_dns",
+      "original_detected": false,
+      "expanded_detected": true,
+      "newly_allowed_on_tested_flows": true
+    },
+    {
+      "mutation": "change_protocol:guest_dns",
+      "operator": "change_protocol",
+      "rule_id": "guest_dns",
+      "original_detected": false,
+      "expanded_detected": true,
+      "newly_allowed_on_tested_flows": true
+    },
+    {
+      "mutation": "delete:guest_dns",
+      "operator": "delete",
+      "rule_id": "guest_dns",
+      "original_detected": true,
+      "expanded_detected": true,
+      "newly_allowed_on_tested_flows": false
+    },
+    {
+      "mutation": "swap:guest_dns",
+      "operator": "swap",
+      "rule_id": "guest_dns",
+      "original_detected": false,
+      "expanded_detected": false,
+      "newly_allowed_on_tested_flows": false
+    },
+    {
+      "mutation": "flip_action:guest_internet",
+      "operator": "flip_action",
+      "rule_id": "guest_internet",
+      "original_detected": true,
+      "expanded_detected": true,
+      "newly_allowed_on_tested_flows": false
+    },
+    {
+      "mutation": "widen_source:guest_internet",
+      "operator": "widen_source",
+      "rule_id": "guest_internet",
+      "original_detected": false,
+      "expanded_detected": true,
+      "newly_allowed_on_tested_flows": true
+    },
+    {
+      "mutation": "widen_destination:guest_internet",
+      "operator": "widen_destination",
+      "rule_id": "guest_internet",
+      "original_detected": false,
+      "expanded_detected": true,
+      "newly_allowed_on_tested_flows": true
+    },
+    {
+      "mutation": "change_port:guest_internet",
+      "operator": "change_port",
+      "rule_id": "guest_internet",
+      "original_detected": false,
+      "expanded_detected": true,
+      "newly_allowed_on_tested_flows": true
+    },
+    {
+      "mutation": "change_protocol:guest_internet",
+      "operator": "change_protocol",
+      "rule_id": "guest_internet",
+      "original_detected": false,
+      "expanded_detected": true,
+      "newly_allowed_on_tested_flows": true
+    },
+    {
+      "mutation": "delete:guest_internet",
+      "operator": "delete",
+      "rule_id": "guest_internet",
+      "original_detected": true,
+      "expanded_detected": true,
+      "newly_allowed_on_tested_flows": false
+    },
+    {
+      "mutation": "swap:guest_internet",
+      "operator": "swap",
+      "rule_id": "guest_internet",
+      "original_detected": false,
+      "expanded_detected": false,
+      "newly_allowed_on_tested_flows": false
+    },
+    {
+      "mutation": "flip_action:guest_db_deny",
+      "operator": "flip_action",
+      "rule_id": "guest_db_deny",
+      "original_detected": true,
+      "expanded_detected": true,
+      "newly_allowed_on_tested_flows": true
+    },
+    {
+      "mutation": "widen_source:guest_db_deny",
+      "operator": "widen_source",
+      "rule_id": "guest_db_deny",
+      "original_detected": false,
+      "expanded_detected": false,
+      "newly_allowed_on_tested_flows": false
+    },
+    {
+      "mutation": "widen_destination:guest_db_deny",
+      "operator": "widen_destination",
+      "rule_id": "guest_db_deny",
+      "original_detected": false,
+      "expanded_detected": false,
+      "newly_allowed_on_tested_flows": false
+    },
+    {
+      "mutation": "change_port:guest_db_deny",
+      "operator": "change_port",
+      "rule_id": "guest_db_deny",
+      "original_detected": false,
+      "expanded_detected": false,
+      "newly_allowed_on_tested_flows": false
+    },
+    {
+      "mutation": "change_protocol:guest_db_deny",
+      "operator": "change_protocol",
+      "rule_id": "guest_db_deny",
+      "original_detected": false,
+      "expanded_detected": false,
+      "newly_allowed_on_tested_flows": false
+    },
+    {
+      "mutation": "delete:guest_db_deny",
+      "operator": "delete",
+      "rule_id": "guest_db_deny",
+      "original_detected": false,
+      "expanded_detected": false,
+      "newly_allowed_on_tested_flows": false
+    },
+    {
+      "mutation": "swap:guest_db_deny",
+      "operator": "swap",
+      "rule_id": "guest_db_deny",
+      "original_detected": false,
+      "expanded_detected": false,
+      "newly_allowed_on_tested_flows": false
+    },
+    {
+      "mutation": "flip_action:guest_mgmt_deny",
+      "operator": "flip_action",
+      "rule_id": "guest_mgmt_deny",
+      "original_detected": true,
+      "expanded_detected": true,
+      "newly_allowed_on_tested_flows": true
+    },
+    {
+      "mutation": "widen_source:guest_mgmt_deny",
+      "operator": "widen_source",
+      "rule_id": "guest_mgmt_deny",
+      "original_detected": true,
+      "expanded_detected": true,
+      "newly_allowed_on_tested_flows": false
+    },
+    {
+      "mutation": "widen_destination:guest_mgmt_deny",
+      "operator": "widen_destination",
+      "rule_id": "guest_mgmt_deny",
+      "original_detected": false,
+      "expanded_detected": false,
+      "newly_allowed_on_tested_flows": false
+    },
+    {
+      "mutation": "change_port:guest_mgmt_deny",
+      "operator": "change_port",
+      "rule_id": "guest_mgmt_deny",
+      "original_detected": false,
+      "expanded_detected": false,
+      "newly_allowed_on_tested_flows": false
+    },
+    {
+      "mutation": "change_protocol:guest_mgmt_deny",
+      "operator": "change_protocol",
+      "rule_id": "guest_mgmt_deny",
+      "original_detected": false,
+      "expanded_detected": false,
+      "newly_allowed_on_tested_flows": false
+    },
+    {
+      "mutation": "delete:guest_mgmt_deny",
+      "operator": "delete",
+      "rule_id": "guest_mgmt_deny",
+      "original_detected": false,
+      "expanded_detected": false,
+      "newly_allowed_on_tested_flows": false
+    },
+    {
+      "mutation": "swap:guest_mgmt_deny",
+      "operator": "swap",
+      "rule_id": "guest_mgmt_deny",
+      "original_detected": false,
+      "expanded_detected": false,
+      "newly_allowed_on_tested_flows": false
+    },
+    {
+      "mutation": "flip_action:admin_mgmt",
+      "operator": "flip_action",
+      "rule_id": "admin_mgmt",
+      "original_detected": true,
+      "expanded_detected": true,
+      "newly_allowed_on_tested_flows": false
+    },
+    {
+      "mutation": "widen_source:admin_mgmt",
+      "operator": "widen_source",
+      "rule_id": "admin_mgmt",
+      "original_detected": false,
+      "expanded_detected": true,
+      "newly_allowed_on_tested_flows": true
+    },
+    {
+      "mutation": "widen_destination:admin_mgmt",
+      "operator": "widen_destination",
+      "rule_id": "admin_mgmt",
+      "original_detected": false,
+      "expanded_detected": true,
+      "newly_allowed_on_tested_flows": true
+    },
+    {
+      "mutation": "change_port:admin_mgmt",
+      "operator": "change_port",
+      "rule_id": "admin_mgmt",
+      "original_detected": false,
+      "expanded_detected": true,
+      "newly_allowed_on_tested_flows": true
+    },
+    {
+      "mutation": "change_protocol:admin_mgmt",
+      "operator": "change_protocol",
+      "rule_id": "admin_mgmt",
+      "original_detected": false,
+      "expanded_detected": true,
+      "newly_allowed_on_tested_flows": true
+    },
+    {
+      "mutation": "delete:admin_mgmt",
+      "operator": "delete",
+      "rule_id": "admin_mgmt",
+      "original_detected": true,
+      "expanded_detected": true,
+      "newly_allowed_on_tested_flows": false
+    }
+  ]
+}

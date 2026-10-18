@@ -1,0 +1,51 @@
+{
+  "backend": "linux-netns-nftables-tcp",
+  "port": 8080,
+  "total": 3,
+  "passed": 3,
+  "firewall_drop_counter": {
+    "packets": 2,
+    "bytes": 120
+  },
+  "results": [
+    {
+      "test": "tcp_baseline_allow",
+      "expected_allowed": true,
+      "observed_allowed": true,
+      "passed": true,
+      "probe": {
+        "allowed": true,
+        "socket_error": 0,
+        "error_description": "Connected"
+      },
+      "firewall_counter": null
+    },
+    {
+      "test": "tcp_firewall_deny",
+      "expected_allowed": false,
+      "observed_allowed": false,
+      "passed": true,
+      "probe": {
+        "allowed": false,
+        "socket_error": 11,
+        "error_description": "Resource temporarily unavailable"
+      },
+      "firewall_counter": {
+        "packets": 2,
+        "bytes": 120
+      }
+    },
+    {
+      "test": "tcp_restored_allow",
+      "expected_allowed": true,
+      "observed_allowed": true,
+      "passed": true,
+      "probe": {
+        "allowed": true,
+        "socket_error": 0,
+        "error_description": "Connected"
+      },
+      "firewall_counter": null
+    }
+  ]
+}

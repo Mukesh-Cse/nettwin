@@ -1,0 +1,321 @@
+{
+  "scenario": "Guest isolation with ordered ACLs",
+  "mutants": 34,
+  "analyzed_flows": 240,
+  "access_expanding_mutants": 14,
+  "access_expansions_missed_by_assertions": 12,
+  "gaps": [
+    {
+      "mutation": "widen_source:guest_dns",
+      "newly_allowed_flows": 4,
+      "examples": [
+        {
+          "source": "admin",
+          "destination": "dns",
+          "protocol": "udp",
+          "port": 53,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        },
+        {
+          "source": "database",
+          "destination": "dns",
+          "protocol": "udp",
+          "port": 53,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        },
+        {
+          "source": "management",
+          "destination": "dns",
+          "protocol": "udp",
+          "port": 53,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        }
+      ]
+    },
+    {
+      "mutation": "widen_destination:guest_dns",
+      "newly_allowed_flows": 4,
+      "examples": [
+        {
+          "source": "guest",
+          "destination": "admin",
+          "protocol": "udp",
+          "port": 53,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        },
+        {
+          "source": "guest",
+          "destination": "database",
+          "protocol": "udp",
+          "port": 53,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        },
+        {
+          "source": "guest",
+          "destination": "management",
+          "protocol": "udp",
+          "port": 53,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        }
+      ]
+    },
+    {
+      "mutation": "change_port:guest_dns",
+      "newly_allowed_flows": 3,
+      "examples": [
+        {
+          "source": "guest",
+          "destination": "dns",
+          "protocol": "udp",
+          "port": 22,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        },
+        {
+          "source": "guest",
+          "destination": "dns",
+          "protocol": "udp",
+          "port": 443,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        },
+        {
+          "source": "guest",
+          "destination": "dns",
+          "protocol": "udp",
+          "port": 5432,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        }
+      ]
+    },
+    {
+      "mutation": "change_protocol:guest_dns",
+      "newly_allowed_flows": 1,
+      "examples": [
+        {
+          "source": "guest",
+          "destination": "dns",
+          "protocol": "tcp",
+          "port": 53,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        }
+      ]
+    },
+    {
+      "mutation": "widen_source:guest_internet",
+      "newly_allowed_flows": 4,
+      "examples": [
+        {
+          "source": "admin",
+          "destination": "internet",
+          "protocol": "tcp",
+          "port": 443,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        },
+        {
+          "source": "dns",
+          "destination": "internet",
+          "protocol": "tcp",
+          "port": 443,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        },
+        {
+          "source": "database",
+          "destination": "internet",
+          "protocol": "tcp",
+          "port": 443,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        }
+      ]
+    },
+    {
+      "mutation": "widen_destination:guest_internet",
+      "newly_allowed_flows": 4,
+      "examples": [
+        {
+          "source": "guest",
+          "destination": "admin",
+          "protocol": "tcp",
+          "port": 443,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        },
+        {
+          "source": "guest",
+          "destination": "dns",
+          "protocol": "tcp",
+          "port": 443,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        },
+        {
+          "source": "guest",
+          "destination": "database",
+          "protocol": "tcp",
+          "port": 443,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        }
+      ]
+    },
+    {
+      "mutation": "change_port:guest_internet",
+      "newly_allowed_flows": 3,
+      "examples": [
+        {
+          "source": "guest",
+          "destination": "internet",
+          "protocol": "tcp",
+          "port": 22,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        },
+        {
+          "source": "guest",
+          "destination": "internet",
+          "protocol": "tcp",
+          "port": 53,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        },
+        {
+          "source": "guest",
+          "destination": "internet",
+          "protocol": "tcp",
+          "port": 5432,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        }
+      ]
+    },
+    {
+      "mutation": "change_protocol:guest_internet",
+      "newly_allowed_flows": 1,
+      "examples": [
+        {
+          "source": "guest",
+          "destination": "internet",
+          "protocol": "udp",
+          "port": 443,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        }
+      ]
+    },
+    {
+      "mutation": "widen_source:admin_mgmt",
+      "newly_allowed_flows": 3,
+      "examples": [
+        {
+          "source": "dns",
+          "destination": "management",
+          "protocol": "tcp",
+          "port": 22,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        },
+        {
+          "source": "database",
+          "destination": "management",
+          "protocol": "tcp",
+          "port": 22,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        },
+        {
+          "source": "internet",
+          "destination": "management",
+          "protocol": "tcp",
+          "port": 22,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        }
+      ]
+    },
+    {
+      "mutation": "widen_destination:admin_mgmt",
+      "newly_allowed_flows": 4,
+      "examples": [
+        {
+          "source": "admin",
+          "destination": "guest",
+          "protocol": "tcp",
+          "port": 22,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        },
+        {
+          "source": "admin",
+          "destination": "dns",
+          "protocol": "tcp",
+          "port": 22,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        },
+        {
+          "source": "admin",
+          "destination": "database",
+          "protocol": "tcp",
+          "port": 22,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        }
+      ]
+    },
+    {
+      "mutation": "change_port:admin_mgmt",
+      "newly_allowed_flows": 3,
+      "examples": [
+        {
+          "source": "admin",
+          "destination": "management",
+          "protocol": "tcp",
+          "port": 53,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        },
+        {
+          "source": "admin",
+          "destination": "management",
+          "protocol": "tcp",
+          "port": 443,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        },
+        {
+          "source": "admin",
+          "destination": "management",
+          "protocol": "tcp",
+          "port": 5432,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        }
+      ]
+    },
+    {
+      "mutation": "change_protocol:admin_mgmt",
+      "newly_allowed_flows": 1,
+      "examples": [
+        {
+          "source": "admin",
+          "destination": "management",
+          "protocol": "udp",
+          "port": 22,
+          "original": "DENY",
+          "mutated": "ALLOW"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+.env
+results/private/
+# Python build and package metadata
+*.egg-info/
+build/
+dist/
+
+# Editor and temporary files
+*.py~
+*.py.save
+*.swp
+*.swo
+
+# Historical working copies
+dashboard_backup_*.py
+dashboard_before_*.py
+nettwin/*_backup.py
+nettwin/*_before_*.py
+nettwin/*_working.py
+nettwin/*_verified.py
+nettwin/*_4passed.py
+
+# Local evaluation backups
+results/*_backup.json

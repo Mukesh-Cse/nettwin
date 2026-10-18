@@ -1,0 +1,26 @@
+[
+  {
+    "scenario": "Guest isolation with ordered ACLs",
+    "training_mutants": 15,
+    "held_out_mutants": 19,
+    "original_assertions": 5,
+    "additional_assertions": 8,
+    "expanded_assertions": 13,
+    "original_held_out_detected": 3,
+    "expanded_held_out_detected": 3,
+    "original_detection_rate": 15.8,
+    "expanded_detection_rate": 15.8
+  },
+  {
+    "scenario": "Enterprise network segmentation",
+    "training_mutants": 18,
+    "held_out_mutants": 23,
+    "original_assertions": 6,
+    "additional_assertions": 8,
+    "expanded_assertions": 14,
+    "original_held_out_detected": 5,
+    "expanded_held_out_detected": 6,
+    "original_detection_rate": 21.7,
+    "expanded_detection_rate": 26.1
+  }
+]

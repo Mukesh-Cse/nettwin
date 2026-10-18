@@ -1,0 +1,114 @@
+{
+  "name": "Faulty guest isolation (overly broad first-match allow)",
+  "nodes": {
+    "guest": "10.10.10.10",
+    "admin": "10.10.20.10",
+    "dns": "10.10.40.53",
+    "database": "10.10.30.10",
+    "management": "10.10.50.10",
+    "internet": "203.0.113.10"
+  },
+  "default_action": "DENY",
+  "rules": [
+    {
+      "id": "bad_guest_allow",
+      "source": "guest",
+      "destination": "any",
+      "protocol": "any",
+      "port": 0,
+      "action": "ALLOW"
+    },
+    {
+      "id": "guest_dns",
+      "source": "guest",
+      "destination": "dns",
+      "protocol": "udp",
+      "port": 53,
+      "action": "ALLOW"
+    },
+    {
+      "id": "guest_internet",
+      "source": "guest",
+      "destination": "internet",
+      "protocol": "tcp",
+      "port": 443,
+      "action": "ALLOW"
+    },
+    {
+      "id": "guest_db_deny",
+      "source": "guest",
+      "destination": "database",
+      "protocol": "tcp",
+      "port": 5432,
+      "action": "DENY"
+    },
+    {
+      "id": "guest_mgmt_deny",
+      "source": "guest",
+      "destination": "management",
+      "protocol": "tcp",
+      "port": 22,
+      "action": "DENY"
+    },
+    {
+      "id": "admin_mgmt",
+      "source": "admin",
+      "destination": "management",
+      "protocol": "tcp",
+      "port": 22,
+      "action": "ALLOW"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "dns_allowed",
+      "flow": {
+        "source": "guest",
+        "destination": "dns",
+        "protocol": "udp",
+        "port": 53
+      },
+      "expected": "ALLOW"
+    },
+    {
+      "id": "internet_allowed",
+      "flow": {
+        "source": "guest",
+        "destination": "internet",
+        "protocol": "tcp",
+        "port": 443
+      },
+      "expected": "ALLOW"
+    },
+    {
+      "id": "db_denied",
+      "flow": {
+        "source": "guest",
+        "destination": "database",
+        "protocol": "tcp",
+        "port": 5432
+      },
+      "expected": "DENY"
+    },
+    {
+      "id": "mgmt_denied",
+      "flow": {
+        "source": "guest",
+        "destination": "management",
+        "protocol": "tcp",
+        "port": 22
+      },
+      "expected": "DENY"
+    },
+    {
+      "id": "admin_allowed",
+      "flow": {
+        "source": "admin",
+        "destination": "management",
+        "protocol": "tcp",
+        "port": 22
+      },
+      "expected": "ALLOW"
+    }
+  ]
+}

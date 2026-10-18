@@ -1,0 +1,125 @@
+
+{
+  "name": "Cloud microservices zero-trust segmentation",
+  "nodes": {
+    "client": "10.30.0.10",
+    "gateway": "10.30.0.20",
+    "auth": "10.30.0.30",
+    "orders": "10.30.0.40",
+    "database": "10.30.0.50",
+    "monitor": "10.30.0.60"
+  },
+  "default_action": "DENY",
+  "rules": [
+    {
+      "id": "client_gateway",
+      "source": "client",
+      "destination": "gateway",
+      "protocol": "tcp",
+      "port": 443,
+      "action": "ALLOW"
+    },
+    {
+      "id": "gateway_auth",
+      "source": "gateway",
+      "destination": "auth",
+      "protocol": "tcp",
+      "port": 8443,
+      "action": "ALLOW"
+    },
+    {
+      "id": "gateway_orders",
+      "source": "gateway",
+      "destination": "orders",
+      "protocol": "tcp",
+      "port": 8080,
+      "action": "ALLOW"
+    },
+    {
+      "id": "orders_database",
+      "source": "orders",
+      "destination": "database",
+      "protocol": "tcp",
+      "port": 5432,
+      "action": "ALLOW"
+    },
+    {
+      "id": "monitor_orders",
+      "source": "monitor",
+      "destination": "orders",
+      "protocol": "tcp",
+      "port": 9090,
+      "action": "ALLOW"
+    },
+    {
+      "id": "client_database_deny",
+      "source": "client",
+      "destination": "database",
+      "protocol": "tcp",
+      "port": 5432,
+      "action": "DENY"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "client_gateway_allowed",
+      "flow": {
+        "source": "client",
+        "destination": "gateway",
+        "protocol": "tcp",
+        "port": 443
+      },
+      "expected": "ALLOW"
+    },
+    {
+      "id": "gateway_auth_allowed",
+      "flow": {
+        "source": "gateway",
+        "destination": "auth",
+        "protocol": "tcp",
+        "port": 8443
+      },
+      "expected": "ALLOW"
+    },
+    {
+      "id": "gateway_orders_allowed",
+      "flow": {
+        "source": "gateway",
+        "destination": "orders",
+        "protocol": "tcp",
+        "port": 8080
+      },
+      "expected": "ALLOW"
+    },
+    {
+      "id": "orders_database_allowed",
+      "flow": {
+        "source": "orders",
+        "destination": "database",
+        "protocol": "tcp",
+        "port": 5432
+      },
+      "expected": "ALLOW"
+    },
+    {
+      "id": "monitor_orders_allowed",
+      "flow": {
+        "source": "monitor",
+        "destination": "orders",
+        "protocol": "tcp",
+        "port": 9090
+      },
+      "expected": "ALLOW"
+    },
+    {
+      "id": "client_database_denied",
+      "flow": {
+        "source": "client",
+        "destination": "database",
+        "protocol": "tcp",
+        "port": 5432
+      },
+      "expected": "DENY"
+    }
+  ]
+}

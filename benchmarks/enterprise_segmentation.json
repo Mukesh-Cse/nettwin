@@ -1,0 +1,125 @@
+
+{
+  "name": "Enterprise network segmentation",
+  "nodes": {
+    "employee": "10.20.10.10",
+    "developer": "10.20.20.10",
+    "web": "10.20.30.10",
+    "database": "10.20.40.10",
+    "monitor": "10.20.50.10",
+    "internet": "203.0.113.20"
+  },
+  "default_action": "DENY",
+  "rules": [
+    {
+      "id": "employee_web",
+      "source": "employee",
+      "destination": "web",
+      "protocol": "tcp",
+      "port": 443,
+      "action": "ALLOW"
+    },
+    {
+      "id": "developer_database",
+      "source": "developer",
+      "destination": "database",
+      "protocol": "tcp",
+      "port": 5432,
+      "action": "ALLOW"
+    },
+    {
+      "id": "web_database",
+      "source": "web",
+      "destination": "database",
+      "protocol": "tcp",
+      "port": 5432,
+      "action": "ALLOW"
+    },
+    {
+      "id": "monitor_web",
+      "source": "monitor",
+      "destination": "web",
+      "protocol": "tcp",
+      "port": 9090,
+      "action": "ALLOW"
+    },
+    {
+      "id": "employee_internet",
+      "source": "employee",
+      "destination": "internet",
+      "protocol": "tcp",
+      "port": 443,
+      "action": "ALLOW"
+    },
+    {
+      "id": "employee_database_deny",
+      "source": "employee",
+      "destination": "database",
+      "protocol": "tcp",
+      "port": 5432,
+      "action": "DENY"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "employee_web_allowed",
+      "flow": {
+        "source": "employee",
+        "destination": "web",
+        "protocol": "tcp",
+        "port": 443
+      },
+      "expected": "ALLOW"
+    },
+    {
+      "id": "developer_database_allowed",
+      "flow": {
+        "source": "developer",
+        "destination": "database",
+        "protocol": "tcp",
+        "port": 5432
+      },
+      "expected": "ALLOW"
+    },
+    {
+      "id": "web_database_allowed",
+      "flow": {
+        "source": "web",
+        "destination": "database",
+        "protocol": "tcp",
+        "port": 5432
+      },
+      "expected": "ALLOW"
+    },
+    {
+      "id": "monitor_web_allowed",
+      "flow": {
+        "source": "monitor",
+        "destination": "web",
+        "protocol": "tcp",
+        "port": 9090
+      },
+      "expected": "ALLOW"
+    },
+    {
+      "id": "employee_internet_allowed",
+      "flow": {
+        "source": "employee",
+        "destination": "internet",
+        "protocol": "tcp",
+        "port": 443
+      },
+      "expected": "ALLOW"
+    },
+    {
+      "id": "employee_database_denied",
+      "flow": {
+        "source": "employee",
+        "destination": "database",
+        "protocol": "tcp",
+        "port": 5432
+      },
+      "expected": "DENY"
+    }
+  ]
+}
