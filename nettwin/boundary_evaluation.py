@@ -14,10 +14,8 @@ HELD_OUT = {
     "swap",
 }
 
-
-def evaluate(path):
-    scenario = load(path)
-
+def generate_boundary_tests(scenario):
+    """Generate negative security tests around allowed flows."""
     original = [
         (a.flow, a.expected)
         for a in scenario.assertions
@@ -70,10 +68,25 @@ def evaluate(path):
             if expected != "DENY":
                 continue
 
-            if any(existing == flow for existing, _ in original + added):
+            if any(
+                existing == flow
+                for existing, _ in original + added
+            ):
                 continue
 
             added.append((flow, expected))
+
+    return added
+
+def evaluate(path):
+    scenario = load(path)
+
+    original = [
+        (a.flow, a.expected)
+        for a in scenario.assertions
+    ]
+
+    added = generate_boundary_tests(scenario)
 
     expanded = original + added
 
