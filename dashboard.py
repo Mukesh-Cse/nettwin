@@ -922,9 +922,19 @@ st.caption(
     "real TCP/UDP traffic and nftables firewall rules."
 )
 
-real_boundary_path = Path(
-    "results/real_boundary_validation_results.json"
+scenario_reports = {
+    "Guest Isolation": "results/real_boundary_validation_results.json",
+    "Enterprise Segmentation": "results/real_boundary_validation_enterprise_results.json",
+    "Cloud Microservices": "results/real_boundary_validation_cloud_results.json",
+}
+
+selected_scenario = st.selectbox(
+    "Select Network Scenario",
+    list(scenario_reports.keys()),
+    key="real_firewall_scenario",
 )
+
+real_boundary_path = Path(scenario_reports[selected_scenario])
 
 if real_boundary_path.exists():
 
@@ -999,9 +1009,10 @@ if real_boundary_path.exists():
     st.bar_chart(decision_counts)
 
     st.caption(
-        "These results validate the guest-isolation scenario "
-        "against a real nftables firewall. They do not establish "
-        "correctness for all possible traffic or network policies."
+        f"These results validate the {selected_scenario} scenario "
+        "against a real Linux nftables firewall using the tested "
+        "TCP/UDP flows. They do not establish correctness for "
+        "all possible traffic or network policies."
     )
 
 else:

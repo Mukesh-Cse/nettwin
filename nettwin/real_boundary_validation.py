@@ -23,8 +23,22 @@ def main():
     if os.geteuid() != 0:
         raise SystemExit("Run with sudo.")
 
-    scenario = load("benchmarks/guest_isolation.json")
 
+
+    scenario_paths = {
+        "guest": "benchmarks/guest_isolation.json",
+        "enterprise": "benchmarks/enterprise_segmentation.json",
+        "cloud": "benchmarks/cloud_microservices.json",
+    }
+
+    scenario_key = sys.argv[1] if len(sys.argv) > 1 else "guest"
+
+    if scenario_key not in scenario_paths:
+        raise SystemExit(
+            "Invalid scenario. Choose: guest, enterprise, or cloud."
+        )
+
+    scenario = load(scenario_paths[scenario_key])
     original = [
         (a.flow, a.expected)
         for a in scenario.assertions
@@ -192,8 +206,11 @@ def main():
             "tests": results,
         }
 
-        report_path = "results/real_boundary_validation_results.json"
-
+        report_path = (
+            "results/real_boundary_validation_results.json"
+            if scenario_key == "guest"
+            else f"results/real_boundary_validation_{scenario_key}_results.json"
+        )
         with open(report_path, "w", encoding="utf-8") as file:
             json.dump(report, file, indent=2)
 
