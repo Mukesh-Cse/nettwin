@@ -927,6 +927,77 @@ scenario_reports = {
     "Enterprise Segmentation": "results/real_boundary_validation_enterprise_results.json",
     "Cloud Microservices": "results/real_boundary_validation_cloud_results.json",
 }
+# Stage 2: Cross-Scenario Firewall Comparison
+st.subheader("Cross-Scenario Firewall Comparison")
+
+comparison_rows = []
+
+for scenario_name, report_file in scenario_reports.items():
+    report_path = Path(report_file)
+
+    if not report_path.exists():
+        st.warning(f"Report missing: {scenario_name}")
+        continue
+
+    with open(report_path, encoding="utf-8") as f:
+        report = json.load(f)
+
+    total_tests = report["total_tests"]
+    passed_tests = report["passed"]
+    failed_tests = report["failed"]
+
+    pass_rate = (
+        100 * passed_tests / total_tests
+        if total_tests
+        else 0
+    )
+
+    comparison_rows.append({
+        "Scenario": scenario_name,
+        "Total Tests": total_tests,
+        "Passed": passed_tests,
+        "Failed": failed_tests,
+        "Pass Rate (%)": round(pass_rate, 2),
+    })
+
+if comparison_rows:
+    comparison_df = pd.DataFrame(comparison_rows)
+
+    total_all = int(comparison_df["Total Tests"].sum())
+    passed_all = int(comparison_df["Passed"].sum())
+    failed_all = int(comparison_df["Failed"].sum())
+
+    overall_rate = (
+        100 * passed_all / total_all
+        if total_all
+        else 0
+    )
+
+    metric1, metric2, metric3, metric4 = st.columns(4)
+
+    metric1.metric("Total Tests", total_all)
+    metric2.metric("Passed Tests", passed_all)
+    metric3.metric("Failed Tests", failed_all)
+    metric4.metric("Overall Pass Rate", f"{overall_rate:.1f}%")
+
+    st.dataframe(
+        comparison_df,
+        use_container_width=True,
+        hide_index=True,
+    )
+
+    st.subheader("Firewall Verification Comparison")
+
+    st.bar_chart(
+        comparison_df.set_index("Scenario")[["Passed", "Failed"]]
+    )
+
+    st.caption(
+        "Comparison of saved real Linux nftables validation "
+        "results across the three benchmark scenarios."
+    )
+
+st.divider()
 
 selected_scenario = st.selectbox(
     "Select Network Scenario",
@@ -974,8 +1045,70 @@ if real_boundary_path.exists():
     )
 
     st.dataframe(category_summary, use_container_width=True)
-
     st.subheader("Individual Firewall Test Results")
+
+    # Stage 2: Interactive Firewall Test Filtering
+    filter_col1, filter_col2, filter_col3 = st.columns(3)
+
+    with filter_col1:
+        category_filter = st.multiselect(
+            "Test Category",
+            sorted(real_tests_df["category"].dropna().unique().tolist()),
+            key="firewall_category_filter",
+        )
+
+        source_filter = st.multiselect(
+            "Source Node",
+            sorted(real_tests_df["source"].dropna().unique().tolist()),
+            key="firewall_source_filter",
+        )
+
+    with filter_col2:
+        protocol_filter = st.multiselect(
+            "Protocol",
+            sorted(real_tests_df["protocol"].dropna().unique().tolist()),
+            key="firewall_protocol_filter",
+        )
+
+        destination_filter = st.multiselect(
+            "Destination Node",
+            sorted(real_tests_df["destination"].dropna().unique().tolist()),
+            key="firewall_destination_filter",
+        )
+
+    with filter_col3:
+        result_filter = st.selectbox(
+            "Test Result",
+            ["All", "Passed", "Failed"],
+            key="firewall_result_filter",
+        )
+
+    filtered_tests_df = real_tests_df.copy()
+
+    for column, selected_values in [
+        ("category", category_filter),
+        ("protocol", protocol_filter),
+        ("source", source_filter),
+        ("destination", destination_filter),
+    ]:
+        if selected_values:
+            filtered_tests_df = filtered_tests_df[
+                filtered_tests_df[column].isin(selected_values)
+            ]
+
+    if result_filter == "Passed":
+        filtered_tests_df = filtered_tests_df[
+            filtered_tests_df["passed"] == True
+        ]
+    elif result_filter == "Failed":
+        filtered_tests_df = filtered_tests_df[
+            filtered_tests_df["passed"] == False
+        ]
+
+    st.caption(
+        f"Showing {len(filtered_tests_df)} "
+        f"of {len(real_tests_df)} firewall tests"
+    )
 
     display_columns = {
         "test_id": "Test ID",
@@ -992,10 +1125,222 @@ if real_boundary_path.exists():
     }
 
     st.dataframe(
-        real_tests_df.rename(columns=display_columns),
+        filtered_tests_df.rename(columns=display_columns),
         use_container_width=True,
         hide_index=True,
     )
+
+    # Stage 2: Download Filtered Firewall Reports
+    st.subheader("Download Firewall Test Reports")
+
+    export_col1, export_col2 = st.columns(2)
+
+    export_df = filtered_tests_df.rename(
+        columns=display_columns
+    )
+
+    csv_data = export_df.to_csv(index=False).encode("utf-8")
+
+    json_data = filtered_tests_df.to_json(
+        orient="records",
+        indent=2,
+    )
+
+    scenario_filename = (
+        selected_scenario.lower().replace(" ", "_")
+    )
+
+    with export_col1:
+        st.download_button(
+            label="Download CSV Report",
+            data=csv_data,
+            file_name=f"nettwin_{scenario_filename}_tests.csv",
+            mime="text/csv",
+            key="firewall_csv_download",
+            use_container_width=True,
+        )
+
+    with export_col2:
+        st.download_button(
+            label="Download JSON Report",
+            data=json_data,
+            file_name=f"nettwin_{scenario_filename}_tests.json",
+            mime="application/json",
+            key="firewall_json_download",
+            use_container_width=True,
+        )
+
+    st.caption(
+        "Downloads contain the currently filtered firewall "
+        "validation tests for the selected network scenario."
+    )
+
+    # Stage 2: Firewall Rule Inspection
+    st.subheader("Firewall Rule Inspection")
+
+    rule_summary = (
+        real_tests_df.groupby("matched_rule", dropna=False)
+        .agg(
+            Tests=("test_id", "count"),
+            Passed=("passed", "sum"),
+            Max_Reported_Packets=("matched_rule_packets", "max"),
+        )
+        .reset_index()
+        .rename(
+            columns={
+                "matched_rule": "Firewall Rule",
+                "Max_Reported_Packets": "Max Reported Packet Counter",
+            }
+        )
+    )
+
+    rule_summary["Failed"] = (
+        rule_summary["Tests"] - rule_summary["Passed"]
+    )
+
+    rule_summary["Pass Rate (%)"] = (
+        100 * rule_summary["Passed"] / rule_summary["Tests"]
+    ).round(2)
+
+    rule_summary = rule_summary[
+        [
+            "Firewall Rule",
+            "Tests",
+            "Passed",
+            "Failed",
+            "Max Reported Packet Counter",
+            "Pass Rate (%)",
+        ]
+    ]
+
+    st.dataframe(
+        rule_summary,
+        use_container_width=True,
+        hide_index=True,
+    )
+
+    st.subheader("Firewall Rule Match Distribution")
+
+    st.bar_chart(
+        rule_summary.set_index("Firewall Rule")["Tests"]
+    )
+
+    st.caption(
+        "Rule match counts represent the number of validation "
+        "tests associated with each rule, not total network "
+        "traffic. Packet counters are reported observations "
+        "from individual firewall tests."
+    )
+
+    selected_rule = st.selectbox(
+        "Inspect Firewall Rule",
+        rule_summary["Firewall Rule"].tolist(),
+        key="firewall_rule_inspector",
+    )
+
+    selected_rule_tests = real_tests_df[
+        real_tests_df["matched_rule"] == selected_rule
+    ]
+
+    st.dataframe(
+        selected_rule_tests.rename(columns=display_columns),
+        use_container_width=True,
+        hide_index=True,
+    )
+
+    st.divider()
+
+    # Stage 2: Security Failure Diagnostics
+    st.subheader("Security Failure Diagnostics")
+
+    failed_tests_df = real_tests_df[
+        real_tests_df["passed"] == False
+    ].copy()
+
+    diagnostic_col1, diagnostic_col2 = st.columns(2)
+
+    diagnostic_col1.metric(
+        "Failed Security Tests",
+        len(failed_tests_df),
+    )
+
+    diagnostic_col2.metric(
+        "Tests Requiring Investigation",
+        len(failed_tests_df),
+    )
+
+    if failed_tests_df.empty:
+        st.success(
+            "No policy mismatches detected in the "
+            "executed firewall validation tests."
+        )
+    else:
+        st.error(
+            f"{len(failed_tests_df)} firewall validation "
+            "tests failed. Investigation required."
+        )
+
+        diagnostics = []
+
+        for _, test in failed_tests_df.iterrows():
+            expected = test["expected"]
+            observed = test["observed"]
+
+            if expected == "DENY" and observed == "ALLOW":
+                issue = "Unauthorized traffic permitted"
+                severity = "High"
+                recommendation = (
+                    "Review the matched firewall rule and "
+                    "check whether an earlier ALLOW rule "
+                    "overrides the intended restriction."
+                )
+
+            elif expected == "ALLOW" and observed == "DENY":
+                issue = "Authorized traffic blocked"
+                severity = "Medium"
+                recommendation = (
+                    "Check rule ordering, protocol, port, "
+                    "source, destination, and default policy."
+                )
+
+            else:
+                issue = "Unexpected firewall behavior"
+                severity = "Needs Review"
+                recommendation = (
+                    "Inspect firewall counters, rule matching, "
+                    "and the network test environment."
+                )
+
+            diagnostics.append({
+                "Test ID": test["test_id"],
+                "Source": test["source"],
+                "Destination": test["destination"],
+                "Protocol": test["protocol"],
+                "Port": test["port"],
+                "Expected": expected,
+                "Observed": observed,
+                "Matched Rule": test["matched_rule"],
+                "Issue": issue,
+                "Severity": severity,
+                "Suggested Investigation": recommendation,
+            })
+
+        diagnostics_df = pd.DataFrame(diagnostics)
+
+        st.dataframe(
+            diagnostics_df,
+            use_container_width=True,
+            hide_index=True,
+        )
+
+        st.caption(
+            "Diagnostic classifications are based on "
+            "expected versus observed decisions. "
+            "Suggested investigations are not confirmed "
+            "root causes."
+        )
+
+    st.divider()
 
     st.subheader("Observed Firewall Decisions")
 
